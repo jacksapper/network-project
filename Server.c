@@ -16,7 +16,9 @@
 #include <unistd.h> //Added to fix implicit definition of close()
 #include <stddef.h> //Added to fix bad signedness on alen at L 117
 
+
 void * serverthread(void * parm);       /* thread function prototype    */
+char string_palin(char str[]);			/* palindrome function prototype */
 
 pthread_mutex_t  mut;
 
@@ -133,7 +135,7 @@ int main (int argc, char *argv[])
 
 void * serverthread(void * parm)
 {
-   printf("SERVER thread: Opening thread");
+   printf("SERVER thread: Opening thread.\n");
    uintptr_t tsd;				/* JASON: fixes unsafe cast void* -> int */
    //int tvisits;
    char     bufout[TBUFSIZE];           /* buffer for string the server sends */
@@ -146,14 +148,23 @@ void * serverthread(void * parm)
    //pthread_mutex_unlock(&mut);
    
    if(read(tsd, bufin, TBUFSIZE) < 0){
-	   printf("SERVER thread: read failure at 146");
+	   printf("SERVER thread: read failure at 146.\n");
 	   exit(1);
    }
    
-   printf("%s\n", bufin);
+   printf("SERVER thread: %s\n", bufin);
+   if(string_palin(bufin) == 1)
+     sprintf(bufout, "This is a palindrome.\n");
+   else if (string_palin(bufin) == 0)
+     sprintf(bufout, "This is not a palindrome.\n");
+   else
+     sprintf(bufout, "The palindrome function has problems.\n");
 
    //sprintf(bufout,"This server has been contacted %d time%s\n",
 	 //  tvisits, tvisits==1?".":"s.");
+	 
+
+   
 
    printf("SERVER thread: %s", bufout);
    
@@ -166,3 +177,23 @@ void * serverthread(void * parm)
    printf("SERVER thread: Exiting thread\n");
    pthread_exit(0);
 }    
+
+char string_palin(char str[])
+{
+ int i,j;
+ for(i=0; str[i]!= NULL; i++);
+ for(j=0,i--; j<=i; )
+ {
+   if(str[i]==str[j])
+   {
+      i--;
+      j++;
+   }
+  else
+      break;
+ }
+ if(j>i)
+    return(1);
+ else
+    return(0);
+}
