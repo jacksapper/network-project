@@ -63,10 +63,11 @@ int main(int argc, char **argv) {
       
     printf("Host %s connecting to %s", localhost, hostname); // JASON: Step1
 
+	/* JASON: Step 2 */
     /* get message line from the user or through arg[3] */
     if (argc == 3){
 	  printf("Please enter the character messages to be checked (CTRL-Z to exit): ");
-	  /* JASON: Step 2 */
+
       bzero(buf, BUFSIZE);
       fgets(buf, BUFSIZE, stdin);
 	}
@@ -74,6 +75,7 @@ int main(int argc, char **argv) {
       error("ERROR line 67");
 
 
+	/*JASON: Step 3 */
     /* send the message line to the server */
     n = write(sockfd, buf, strlen(buf));
     if (n < 0) 
