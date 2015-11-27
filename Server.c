@@ -46,13 +46,14 @@ int visits =  0;                        /* counts client connections     */
 **************************************************************************
 */
 
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
      struct   hostent   *ptrh;     /* pointer to a host table entry */
      struct   protoent  *ptrp;     /* pointer to a protocol table entry */
      struct   sockaddr_in sad;     /* structure to hold server's address */
      struct   sockaddr_in cad;     /* structure to hold client's address */
-     int      sd, sd2;             /* socket descriptors */
+     int      sd;             /* socket descriptors */
+     uintptr_t sd2;					/*ADDED BY JASON to prevent L 119 unsafe void* cast.  sd2 was previously an int*/
      int      port;                /* protocol port number */
      int      alen;                /* length of address */
      pthread_t  tid;             /* variable to hold thread ID */
@@ -124,10 +125,11 @@ main (int argc, char *argv[])
 
 void * serverthread(void * parm)
 {
-   int tsd, tvisits;
+   uintptr_t tsd;				/* JASON:fixes unsafe cast void* -> int */
+   int tvisits;
    char     buf[100];           /* buffer for string the server sends */
 
-   tsd = (int) parm;
+   tsd = (uintptr_t) parm;
 
    pthread_mutex_lock(&mut);
         tvisits = ++visits;
