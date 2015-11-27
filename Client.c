@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     char buf[BUFSIZE];
 
     /* check command line arguments */
-    if (argc != 4 || argc != 3) {
+    if (argc != 4 && argc != 3) {
        fprintf(stderr,"usage: %s <hostname> <port> <msg>\nor usage: %s <hostname> <port>", argv[0], argv[0]);
        exit(0);
     }
@@ -58,6 +58,8 @@ int main(int argc, char **argv) {
     /* connect: create a connection with the server */
     if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
       error("ERROR connecting");
+      
+    printf("Host 127.0.0.1 connecting to %s", hostname); // JASON: Step1
 
     /* get message line from the user or through arg[3] */
     if (argc == 3){
