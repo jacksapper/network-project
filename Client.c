@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
     if (connect(sockfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0) 
       error("ERROR connecting");
       
-    printf("Host %s connecting to %s", localhost, hostname); // JASON: Step1
+    printf("Host %s connecting to %s\n", localhost, hostname); // JASON: Step1
 
 	/* JASON: Step 2 */
     /* get message line from the user or through arg[3] */
