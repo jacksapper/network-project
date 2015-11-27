@@ -26,7 +26,9 @@ int main(int argc, char **argv) {
     struct sockaddr_in serveraddr;
     struct hostent *server;
     char *hostname;
+    char *localhost = "127.0.0.1";
     char buf[BUFSIZE];
+    
 
     /* check command line arguments */
     if (argc != 4 && argc != 3) {
@@ -59,7 +61,7 @@ int main(int argc, char **argv) {
     if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
       error("ERROR connecting");
       
-    printf("Host 127.0.0.1 connecting to %s", hostname); // JASON: Step1
+    printf("Host %s connecting to %s", localhost, hostname); // JASON: Step1
 
     /* get message line from the user or through arg[3] */
     if (argc == 3){
