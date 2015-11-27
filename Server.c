@@ -133,30 +133,36 @@ int main (int argc, char *argv[])
 
 void * serverthread(void * parm)
 {
+   printf("SERVER thread: Opening thread");
    uintptr_t tsd;				/* JASON: fixes unsafe cast void* -> int */
-   int tvisits;
+   //int tvisits;
    char     bufout[TBUFSIZE];           /* buffer for string the server sends */
    char		bufin[TBUFSIZE];				/* buffer for string the client sends */
 
    tsd = (uintptr_t) parm;
 
-   pthread_mutex_lock(&mut);
-        tvisits = ++visits;
-   pthread_mutex_unlock(&mut);
+   //pthread_mutex_lock(&mut);
+   //     tvisits = ++visits;
+   //pthread_mutex_unlock(&mut);
    
    if(read(tsd, bufin, TBUFSIZE) < 0){
-	   printf("read failure at 146");
+	   printf("SERVER thread: read failure at 146");
 	   exit(1);
    }
    
    printf("%s\n", bufin);
 
-   sprintf(bufout,"This server has been contacted %d time%s\n",
-	   tvisits, tvisits==1?".":"s.");
+   //sprintf(bufout,"This server has been contacted %d time%s\n",
+	 //  tvisits, tvisits==1?".":"s.");
 
    printf("SERVER thread: %s", bufout);
+   
+   printf("SERVER thread: Sending response to client.");
    send(tsd,bufout,strlen(bufout),0);
+   
+   printf("SERVER thread: Closing socket.");
    close(tsd);
-   printf("Exiting thread\n");
+   
+   printf("SERVER thread: Exiting thread\n");
    pthread_exit(0);
 }    
