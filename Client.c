@@ -63,7 +63,8 @@ int main(int argc, char **argv) {
 
     /* get message line from the user or through arg[3] */
     if (argc == 3){
-	  printf("Please enter msg: ");
+	  printf("Please enter the character messages to be checked (CTRL-Z to exit): ");
+	  /* JASON: Step 2 */
       bzero(buf, BUFSIZE);
       fgets(buf, BUFSIZE, stdin);
 	}
