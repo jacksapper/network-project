@@ -181,7 +181,8 @@ void * serverthread(void * parm)
 char string_palin(char str[])
 {
  int i,j;
- for(i=0; str[i]!= NULL; i++);
+ //for(i=0; str[i]!= NULL; i++);
+ i = strlen(str);
  for(j=0,i--; j<=i; )
  {
    if(str[i]==str[j])
