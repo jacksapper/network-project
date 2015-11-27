@@ -127,7 +127,7 @@ int main (int argc, char *argv[])
 
 void * serverthread(void * parm)
 {
-   uintptr_t tsd;				/* JASON:fixes unsafe cast void* -> int */
+   uintptr_t tsd;				/* JASON: fixes unsafe cast void* -> int */
    int tvisits;
    char     buf[100];           /* buffer for string the server sends */
 

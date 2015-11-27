@@ -29,8 +29,8 @@ int main(int argc, char **argv) {
     char buf[BUFSIZE];
 
     /* check command line arguments */
-    if (argc != 4) {
-       fprintf(stderr,"usage: %s <hostname> <port> <msg>\n", argv[0]);
+    if (argc != 4 || argc != 3) {
+       fprintf(stderr,"usage: %s <hostname> <port> <msg>\nor usage: %s <hostname> <port>", argv[0], argv[0]);
        exit(0);
     }
     hostname = argv[1];
@@ -59,12 +59,13 @@ int main(int argc, char **argv) {
     if (connect(sockfd, &serveraddr, sizeof(serveraddr)) < 0) 
       error("ERROR connecting");
 
-    /* get message line from the user */
-    //printf("Please enter msg: ");
-    //bzero(buf, BUFSIZE);
-    //fgets(buf, BUFSIZE, stdin);
-
-    if (strncpy(buf, argv[3], BUFSIZE) < 0)
+    /* get message line from the user or through arg[3] */
+    if (argc == 3){
+	  printf("Please enter msg: ");
+      bzero(buf, BUFSIZE);
+      fgets(buf, BUFSIZE, stdin);
+	}
+    else if (strncpy(buf, argv[3], BUFSIZE) < 0)
       error("ERROR line 67");
 
 
