@@ -22,8 +22,10 @@ pthread_mutex_t  mut;
 
 #define PROTOPORT         5193          /* default protocol port number */
 #define QLEN              6             /* size of request queue        */
+#define TBUFSIZE          100           /*size of thread message buffers */
 
 int visits =  0;                        /* counts client connections     */
+
 
 /*************************************************************************
  Program:        concurrent server
@@ -54,11 +56,13 @@ int main (int argc, char *argv[])
      struct   protoent  *ptrp;     /* pointer to a protocol table entry */
      struct   sockaddr_in sad;     /* structure to hold server's address */
      struct   sockaddr_in cad;     /* structure to hold client's address */
+     
      int      sd;             /* socket descriptors */
      uintptr_t sd2;					/*ADDED BY JASON to prevent L 119 unsafe void* cast.  sd2 was previously an int*/
      int      port;                /* protocol port number */
      socklen_t      alen;                /* length of address */
      pthread_t  tid;             /* variable to hold thread ID */
+     
 
      pthread_mutex_init(&mut, NULL);
      memset((char  *)&sad,0,sizeof(sad)); /* clear sockaddr structure   */
@@ -119,6 +123,8 @@ int main (int argc, char *argv[])
 	                      fprintf(stderr, "accept failed\n");
                               exit (1);
 	 }
+	 
+	 
 	 pthread_create(&tid, NULL, serverthread, (void *) sd2 );
      }
      close(sd);
@@ -129,19 +135,28 @@ void * serverthread(void * parm)
 {
    uintptr_t tsd;				/* JASON: fixes unsafe cast void* -> int */
    int tvisits;
-   char     buf[100];           /* buffer for string the server sends */
+   char     bufout[TBUFSIZE];           /* buffer for string the server sends */
+   char		bufin[TBUFSIZE];				/* buffer for string the client sends */
 
    tsd = (uintptr_t) parm;
 
    pthread_mutex_lock(&mut);
         tvisits = ++visits;
    pthread_mutex_unlock(&mut);
+   
+   if(read(tsd, bufin, TBUFSIZE) < 0){
+	   printf("read failure at 146");
+	   exit(1);
+   }
+   
+   printf("%s\n", bufin);
 
-   sprintf(buf,"This server has been contacted %d time%s\n",
+   sprintf(bufout,"This server has been contacted %d time%s\n",
 	   tvisits, tvisits==1?".":"s.");
 
-   printf("SERVER thread: %s", buf);
-   send(tsd,buf,strlen(buf),0);
+   printf("SERVER thread: %s", bufout);
+   send(tsd,bufout,strlen(bufout),0);
    close(tsd);
+   printf("Exiting thread\n");
    pthread_exit(0);
 }    
