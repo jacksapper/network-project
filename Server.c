@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <stdlib.h> //Added to fix implicit definition of exit()
+
 void * serverthread(void * parm);       /* thread function prototype    */
 
 pthread_mutex_t  mut;
@@ -78,7 +80,7 @@ main (int argc, char *argv[])
 
      /* Map TCP transport protocol name to protocol number */
      
-     if ( ((int)(ptrp = getprotobyname("tcp"))) == 0)  {
+     if ( ((ptrp = getprotobyname("tcp"))) == 0)  {
                      fprintf(stderr, "cannot map \"tcp\" to protocol number");
                      exit (1);
      }
