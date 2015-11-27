@@ -11,7 +11,6 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 void * serverthread(void * parm);       /* thread function prototype    */
 
@@ -19,15 +18,8 @@ pthread_mutex_t  mut;
 
 #define PROTOPORT         5193          /* default protocol port number */
 #define QLEN              6             /* size of request queue        */
-#define BUFSIZE	          128
 
 int visits =  0;                        /* counts client connections     */
-
-struct tpass
-{
-   int sd2;
-   char buf[BUFSIZE];
-}
 
 /*************************************************************************
  Program:        concurrent server
@@ -122,47 +114,22 @@ main (int argc, char *argv[])
 	                      fprintf(stderr, "accept failed\n");
                               exit (1);
 	 }
-
-         struct tpass tp;
-         tp.sd2 = sd2;
-         if(recv(sd2, tp.buf, BUFSIZE, 0) < 0)
-         {
-             fprintf(stderr, "recv failed\n");
-             exit (1);
-         }
-
 	 pthread_create(&tid, NULL, serverthread, (void *) sd2 );
      }
      close(sd);
 }
 
-int string_palin(char str[])
-{
- int i,j;
- for(i=0; str[i]!=NULL; i++);
- for(j=0,i--; j<=i; )
- {
-   if(str[i]==str[j])
-   {
-      i--;
-      j++;
-   }
-  else
-      break;
- }
- if(j>i)
-    return(1);
- else
-    return(0);
-}
 
 void * serverthread(void * parm)
 {
    int tsd, tvisits;
-   char     buf[128];           /* buffer for string the server sends */
+   char     buf[100];           /* buffer for string the server sends */
 
    tsd = (int) parm;
 
+   pthread_mutex_lock(&mut);
+        tvisits = ++visits;
+   pthread_mutex_unlock(&mut);
 
    sprintf(buf,"This server has been contacted %d time%s\n",
 	   tvisits, tvisits==1?".":"s.");
@@ -172,5 +139,3 @@ void * serverthread(void * parm)
    close(tsd);
    pthread_exit(0);
 }    
-
-
