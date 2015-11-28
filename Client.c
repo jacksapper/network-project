@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
     n = read(sockfd, buf, BUFSIZE);
     if (n < 0) 
       error("ERROR reading from socket");
-    printf("Echo from server: %s", buf);
+    printf("Echo from server: %s\n", buf);
     close(sockfd);
     return 0;
 }

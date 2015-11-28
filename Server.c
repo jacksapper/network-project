@@ -152,13 +152,13 @@ void * serverthread(void * parm)
 	   exit(1);
    }
    
-   printf("SERVER thread: %s\n", bufin);
+   printf("SERVER thread: Received %s from client\n", bufin);
    if(string_palin(bufin) == 1)
-     sprintf(bufout, "This is a palindrome.\n");
+     sprintf(bufout, "This is a palindrome.");
    else if (string_palin(bufin) == 0)
-     sprintf(bufout, "This is not a palindrome.\n");
+     sprintf(bufout, "This is not a palindrome.");
    else
-     sprintf(bufout, "The palindrome function has problems.\n");
+     sprintf(bufout, "The palindrome function has problems.");
 
    //sprintf(bufout,"This server has been contacted %d time%s\n",
 	 //  tvisits, tvisits==1?".":"s.");
@@ -166,12 +166,12 @@ void * serverthread(void * parm)
 
    
 
-   printf("SERVER thread: %s", bufout);
+   printf("SERVER thread: %s\n", bufout);
    
-   printf("SERVER thread: Sending response to client.");
+   printf("SERVER thread: Sending response to client.\n");
    send(tsd,bufout,strlen(bufout),0);
    
-   printf("SERVER thread: Closing socket.");
+   printf("SERVER thread: Closing socket.\n");
    close(tsd);
    
    printf("SERVER thread: Exiting thread\n");
@@ -181,11 +181,10 @@ void * serverthread(void * parm)
 char string_palin(char str[])
 {
  int i,j;
- //for(i=0; str[i]!= NULL; i++);
  i = strlen(str);
- for(j=0,i--; j<=i; )
+ for(j=0, i--; j<=i;)
  {
-   if(str[i]==str[j])
+   if(str[i] == str[j])
    {
       i--;
       j++;
@@ -193,7 +192,7 @@ char string_palin(char str[])
   else
       break;
  }
- if(j>i)
+ if(j > i)
     return(1);
  else
     return(0);
