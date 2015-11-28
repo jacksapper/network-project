@@ -187,6 +187,7 @@ void * serverthread(void * parm)
 // algorithm for palindrome mostly from 
 // http://cprogrammingcodes.blogspot.com/2011/12/palindrome-function.html
 // the original algorithm works but does some unsafe pointer operations
+
 char string_palin(char str[])
 {
  int i,j;

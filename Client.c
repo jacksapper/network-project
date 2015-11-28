@@ -1,3 +1,6 @@
+/* to compile me in Linux, type:   gcc -o Client Client.c -lpthread */
+/* then to run me in Linux, type:  ./Client                         */
+
 /* 
  * tcpclient.c - A simple TCP client
  * usage: tcpclient <host> <port>
@@ -70,6 +73,11 @@ int main(int argc, char **argv) {
 
       bzero(buf, BUFSIZE);
       fgets(buf, BUFSIZE, stdin);
+      
+      char *pos;  //this gets rid of the newline character
+      if ((pos = strchr(buf, '\n')) != NULL)
+        *pos = '\0';
+        
 	}
     else if (strncpy(buf, argv[3], BUFSIZE) < 0)
       error("ERROR line 67");
