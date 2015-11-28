@@ -1,4 +1,10 @@
-/* to compile me in Linux, type:   gcc -o concurrentserver concurrentserver.c -lpthread */
+/* to compile me in Linux, type:   gcc -o Server Server.c -lpthread */
+/* then to run me in Linux, type:  ./Server */
+
+/* Please note that different distros of Linux have their compiler flags
+ * set differently.  You may have to add std=gnu99 if this program is
+ * unable to be compiled */
+ 
 
 /* server.c - code for example server program that uses TCP */
 /* From Computer Networks and Internets by Douglas F. Comer */
@@ -178,6 +184,9 @@ void * serverthread(void * parm)
    pthread_exit(0);
 }    
 
+// algorithm for palindrome mostly from 
+// http://cprogrammingcodes.blogspot.com/2011/12/palindrome-function.html
+// the original algorithm works but does some unsafe pointer operations
 char string_palin(char str[])
 {
  int i,j;
