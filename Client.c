@@ -25,12 +25,15 @@ void error(char *msg) {
 }
 
 int main(int argc, char **argv) {
+	
     int sockfd, portno, n;
     struct sockaddr_in serveraddr;
     struct hostent *server;
     char *hostname;
     char *localhost = "127.0.0.1";
     char buf[BUFSIZE];
+    
+    int repeat = 0;
     
 
     /* check command line arguments */
@@ -69,6 +72,7 @@ int main(int argc, char **argv) {
 	/* JASON: Step 2 */
     /* get message line from the user or through arg[3] */
     if (argc == 3){
+      repeat = 1;	//tells the program to loop
 	  printf("Please enter the character messages to be checked (CTRL-Z to exit): ");
 
       bzero(buf, BUFSIZE);
@@ -96,5 +100,6 @@ int main(int argc, char **argv) {
       error("ERROR reading from socket");
     printf("Echo from server: %s\n", buf);
     close(sockfd);
-    return 0;
+    if(repeat)
+      main(argc, argv);
 }
