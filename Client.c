@@ -82,6 +82,12 @@ int main(int argc, char **argv) {
       if ((pos = strchr(buf, '\n')) != NULL)
         *pos = '\0';
         
+      if (strlen(buf) == 0) {
+		printf("Please enter a nonempty string.\n");
+		close(sockfd);
+	    exit(0);
+	  }
+        
 	}
     else if (strncpy(buf, argv[3], BUFSIZE) < 0)
       error("ERROR line 67");
