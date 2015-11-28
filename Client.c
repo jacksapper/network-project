@@ -1,5 +1,7 @@
-/* to compile me in Linux, type:   gcc -o Client Client.c -lpthread */
-/* then to run me in Linux, type:  ./Client                         */
+/* to compile me in Linux, type:   gcc -o Client Client.c */
+/* then to run me in Linux, type:  ./Client <hostname> <port> */
+/* you may also send single messages using
+ *  ./Client <hostname> <port> <message> */
 
 /* 
  * tcpclient.c - A simple TCP client
