@@ -72,7 +72,7 @@ int main (int argc, char *argv[])
      pthread_t  tid;             /* variable to hold thread ID */
      
 
-     pthread_mutex_init(&mut, NULL);
+     //pthread_mutex_init(&mut, NULL);
      memset((char  *)&sad,0,sizeof(sad)); /* clear sockaddr structure   */
      sad.sin_family = AF_INET;            /* set family to Internet     */
      sad.sin_addr.s_addr = INADDR_ANY;    /* set the local IP address */
